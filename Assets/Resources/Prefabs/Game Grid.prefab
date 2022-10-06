@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7877760189854261190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5512649569812557069}
+  - component: {fileID: 329685105668354638}
+  m_Layer: 0
+  m_Name: Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5512649569812557069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7877760189854261190}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.164, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1305051824716427047}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &329685105668354638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7877760189854261190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76fbc2888c53bc54a9577d5b58e05925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileDisplaySize: {x: 0.15, y: 0.15}
+--- !u!1 &9076528976283016001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1305051824716427047}
+  - component: {fileID: 1617774429598045529}
+  m_Layer: 0
+  m_Name: Game Grid
+  m_TagString: Untagged
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1305051824716427047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9076528976283016001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5512649569812557069}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1617774429598045529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9076528976283016001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baff3eeb2b1fcce488faffa000b3649d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onExecuteMatch:
+    m_PersistentCalls:
+      m_Calls: []
+  lastMoveType: 0
+  bombsBeingExplode: []
+  tileInfoIdPool: 
+  poolSize: 15
+  initialPoolElementNum: 5
+  tileInfoArr:
+  - tilePrefab: {fileID: 3919402568463882779, guid: a805677b9fe65134fb2a6466b40bc38e,
+      type: 3}
+    probability: 0
+  - tilePrefab: {fileID: 4869919060270557914, guid: b21a07b399e28704a915c541c1d4f9b8,
+      type: 3}
+    probability: 0.1
+  - tilePrefab: {fileID: 4238418293852137717, guid: 8d4559f2663044f4e97fe5e13d73f0cf,
+      type: 3}
+    probability: 1
+  - tilePrefab: {fileID: 4768388542053087361, guid: 883b7674ec5797a42af2a24774cdcb60,
+      type: 3}
+    probability: 1
+  - tilePrefab: {fileID: 4835761086006551748, guid: 2642bd3d3868cc2489cbff5b202766cc,
+      type: 3}
+    probability: 1
+  - tilePrefab: {fileID: 9072905193543103457, guid: db751e435d5e34744a30a9c5e8dc677d,
+      type: 3}
+    probability: 1
+  tileSize: {x: 0.26, y: 0.26}
+  gridSize: {x: 4, y: 4}
+  minimumMatchedCount: 4
+  imovablePoint: 4
+  confirmSwipeDirLength: 100
+  confirmMoveTileLength: 130
+  matchingDelayTime: 1
