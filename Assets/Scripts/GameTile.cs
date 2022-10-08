@@ -18,7 +18,9 @@ public class GameTile : MonoBehaviour
     private int landingAddress;
     private Coroutine movingCoroutine;
     private BoxCollider boxCollider;
-    private Animator animator;
+    private Animator matchAnim;
+    private Transform wickSparcles;
+    private float matchAnimLength;
 
     public void Init(GameGrid grid, int address, int infoId, bool playSpawnEffect = true)
     {
@@ -26,10 +28,12 @@ public class GameTile : MonoBehaviour
         this.address = address;
         this.infoId = infoId;
         boxCollider = GetComponent<BoxCollider>();
-        animator = GetComponent<Animator>();
+        matchAnim = GetComponent<Animator>();
 
         if (abilities.CanExplodes)
         {
+            wickSparcles = transform.Find("Wick Sparcles FX");
+            wickSparcles.gameObject.SetActive(false);
             grid.onExecuteMatch.AddListener(OnExecuteMatch);
         }
 
@@ -104,6 +108,7 @@ public class GameTile : MonoBehaviour
             if (State == TileState.PendingDelete) break;
             if (grid.AreAddressesNeighbours(this.address, address))
             {
+                wickSparcles.gameObject.SetActive(true);
                 grid.lastMoveType = TileMoveType.Bomb;
                 grid.bombsBeingExplode.Add(this);
                 break;
@@ -113,42 +118,43 @@ public class GameTile : MonoBehaviour
 
     private void PlayMatchEffect(Action callback)
     {
-        animator.Play("StartAnimation");
-        StartCoroutine(FakeEffect("Match Effect", 1.0f, callback));
+        matchAnim.Play("StartAnimation");
+        StartCoroutine(WaitFor(1, callback));
     }
 
     private void PlaySpawnEffect()
     {
-        StartCoroutine(FakeEffect("Spawn Effect", 1.0f));
+        StartCoroutine(WaitFor(1.0f));
     }
 
     private void PlayStartMovingEffect()
     {
-        StartCoroutine(FakeEffect("Start Moving Effect", 1.0f));
+        StartCoroutine(WaitFor(1.0f));
     }
 
     private void PlayStopMovingEffect()
     {
-        StartCoroutine(FakeEffect("Stop Moving Effect", 1.0f));
+        StartCoroutine(WaitFor(1.0f));
     }
 
     private void PlayDestroyEffect(Action callback)
     {
-        StartCoroutine(FakeEffect("Destroy Effect", .0f, callback));
+        StartCoroutine(WaitFor(.0f, callback));
     }
 
-    private IEnumerator Moving(Vector3 dest, bool withFadeEffect = false)
+    private IEnumerator Moving(Vector3 dest, bool withScaleEffect = false)
     {
         Vector3 start = transform.position;
         Vector3 dir = (dest - transform.position).normalized;
         float totalDistance = Vector3.Distance(start, dest);
+        if (withScaleEffect) matchAnim.enabled = false;
         while (true)
         {
             transform.position += moveSpeed * Time.deltaTime * dir;
-            if (withFadeEffect)
+            if (withScaleEffect)
             {
-                //float alpha = Mathf.Lerp(1, 0, Vector3.Distance(transform.position, start) / totalDistance);
-                //spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.g, alpha);
+                float scalar = Mathf.Lerp(1, 0, Vector3.Distance(transform.position, start) / totalDistance);
+                transform.localScale = Vector3.one * scalar;
             }
             if (Vector3.Dot(dest - transform.position, dir) < 0)
             {
@@ -161,19 +167,14 @@ public class GameTile : MonoBehaviour
         if (!isPoolDisplay) FinishMoving();
     }
 
-    private IEnumerator FakeEffect(string effect, float time, Action callback = null)
+    private IEnumerator WaitFor(float time, Action callback = null)
     {
-        //float timer = 0;
-        //while (timer <= time)
-        //{
-        //    float alpha = Mathf.Lerp(1, 0, timer / time);
-        //    spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.g, alpha);
-
-        //    timer += Time.deltaTime;
-        //    yield return null;
-        //}
-
-        yield return new WaitForSeconds(time);
+        float timer = 0;
+        while (timer <= time)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
 
         callback?.Invoke();
     }

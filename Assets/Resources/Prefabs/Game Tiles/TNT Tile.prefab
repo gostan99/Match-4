@@ -67927,7 +67927,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4771437848492499708}
-  - component: {fileID: 7627734867335624267}
   m_Layer: 0
   m_Name: Wick Sparcles FX
   m_TagString: Untagged
@@ -67956,26 +67955,6 @@ Transform:
   m_Father: {fileID: 379554138303041678}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &7627734867335624267
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6018882520827106826}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 790266dbaa8c211489ab12fc27018d04, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &379554137389077047
 PrefabInstance:
   m_ObjectHideFlags: 0

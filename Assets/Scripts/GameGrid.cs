@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using Color = UnityEngine.Color;
@@ -499,6 +500,8 @@ public class GameGrid : MonoBehaviour
         Vector2Int swipeDir = Vector2Int.zero;
         float swipeLength = 0;
         GameTile newTile = CreateTile(tileInfoIdPool[0], Vector3.zero, -1, false);
+        Animator animator = newTile.GetComponent<Animator>();
+        animator.enabled = false;
         //newTile.gameObject.name = "new tile";
         bool swipeDirectionConfirmed = false;
         bool cancel = false;
@@ -516,8 +519,8 @@ public class GameGrid : MonoBehaviour
 
             swipeLength = Vector3.Distance(startClickPos, Input.mousePosition);
 
-            //float alpha = Mathf.Lerp(0, 1, swipeLength / confirmSwipeDirLength);
-            //renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.g, alpha);
+            float scalar = Mathf.Lerp(0, 1, swipeLength / confirmSwipeDirLength);
+            newTile.transform.localScale = Vector3.one * scalar;
 
             if (swipeLength >= confirmMoveTileLength && swipeDirectionConfirmed)
             {
@@ -538,6 +541,7 @@ public class GameGrid : MonoBehaviour
                     movingTiles.Add(newTile);
 
                     tileInfoIdPool.Remove(tileInfoIdPool[0]);
+                    newTile.transform.localScale = Vector3.one;
                 }
                 else
                 {
@@ -571,6 +575,7 @@ public class GameGrid : MonoBehaviour
             yield return null;
         }
 
+        animator.enabled = true;
         if (cancel) newTile.DestroyTile();
     }
 

@@ -95,7 +95,6 @@ MonoBehaviour:
       m_Calls: []
   lastMoveType: 0
   bombsBeingExplode: []
-  tileInfoIdPool: 
   poolSize: 16
   initialPoolElementNum: 16
   tileInfoArr:
@@ -114,20 +113,10 @@ MonoBehaviour:
   - tilePrefab: {fileID: 8463277567585367186, guid: ff16112cfca417f40ad78727ca7df163,
       type: 3}
     probability: 1
-  tileInfoArrForPool:
-  - tilePrefab: {fileID: 616606968074397962, guid: e5f8ebd8bf320824987c3fcc089615a5,
-      type: 3}
-    probability: 1
-  - tilePrefab: {fileID: 6198395559322956460, guid: d74c5ce48928c9249b2fa3e466fe229a,
-      type: 3}
-    probability: 1
-  - tilePrefab: {fileID: 8463277567585367186, guid: ff16112cfca417f40ad78727ca7df163,
-      type: 3}
-    probability: 1
   tileSize: {x: 8, y: 8}
   gridSize: {x: 4, y: 4}
   minimumMatchedCount: 4
   imovablePoint: 4
   confirmSwipeDirLength: 100
   confirmMoveTileLength: 130
-  matchingDelayTime: 1
+  matchingDelayTime: 0
