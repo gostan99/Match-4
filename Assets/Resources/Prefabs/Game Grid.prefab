@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7877760189854261190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.164, z: 0}
+  m_LocalPosition: {x: 0, y: 20.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76fbc2888c53bc54a9577d5b58e05925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileDisplaySize: {x: 0.15, y: 0.15}
+  tileDisplaySize: {x: 0.47, y: 0.47}
 --- !u!1 &9076528976283016001
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,25 +99,22 @@ MonoBehaviour:
   poolSize: 15
   initialPoolElementNum: 5
   tileInfoArr:
-  - tilePrefab: {fileID: 3919402568463882779, guid: a805677b9fe65134fb2a6466b40bc38e,
+  - tilePrefab: {fileID: 8454407298532773667, guid: 5c8eff0ed837c4b468aa4a33bb0238e3,
       type: 3}
     probability: 0
-  - tilePrefab: {fileID: 4869919060270557914, guid: b21a07b399e28704a915c541c1d4f9b8,
-      type: 3}
-    probability: 0.1
-  - tilePrefab: {fileID: 4238418293852137717, guid: 8d4559f2663044f4e97fe5e13d73f0cf,
+  - tilePrefab: {fileID: 379554138303041679, guid: 5fcb9fd0a48100f4da348c3b4fad2d07,
       type: 3}
     probability: 1
-  - tilePrefab: {fileID: 4768388542053087361, guid: 883b7674ec5797a42af2a24774cdcb60,
+  - tilePrefab: {fileID: 616606968074397962, guid: e5f8ebd8bf320824987c3fcc089615a5,
       type: 3}
     probability: 1
-  - tilePrefab: {fileID: 4835761086006551748, guid: 2642bd3d3868cc2489cbff5b202766cc,
+  - tilePrefab: {fileID: 6198395559322956460, guid: d74c5ce48928c9249b2fa3e466fe229a,
       type: 3}
     probability: 1
-  - tilePrefab: {fileID: 9072905193543103457, guid: db751e435d5e34744a30a9c5e8dc677d,
+  - tilePrefab: {fileID: 8463277567585367186, guid: ff16112cfca417f40ad78727ca7df163,
       type: 3}
     probability: 1
-  tileSize: {x: 0.26, y: 0.26}
+  tileSize: {x: 8, y: 8}
   gridSize: {x: 4, y: 4}
   minimumMatchedCount: 4
   imovablePoint: 4

@@ -17,16 +17,16 @@ public class GameTile : MonoBehaviour
     private int address;
     private int landingAddress;
     private Coroutine movingCoroutine;
-    private SpriteRenderer spriteRenderer;
     private BoxCollider boxCollider;
+    private Animator animator;
 
     public void Init(GameGrid grid, int address, int infoId, bool playSpawnEffect = true)
     {
         this.grid = grid;
         this.address = address;
         this.infoId = infoId;
-        spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider>();
+        animator = GetComponent<Animator>();
 
         if (abilities.CanExplodes)
         {
@@ -97,11 +97,6 @@ public class GameTile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public SpriteRenderer GetSpriteRenderer()
-    {
-        return spriteRenderer;
-    }
-
     private void OnExecuteMatch(List<int> matchedAddress)
     {
         foreach (var address in matchedAddress)
@@ -118,7 +113,7 @@ public class GameTile : MonoBehaviour
 
     private void PlayMatchEffect(Action callback)
     {
-        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.g, .3f);
+        animator.Play("StartAnimation");
         StartCoroutine(FakeEffect("Match Effect", 1.0f, callback));
     }
 
@@ -152,8 +147,8 @@ public class GameTile : MonoBehaviour
             transform.position += moveSpeed * Time.deltaTime * dir;
             if (withFadeEffect)
             {
-                float alpha = Mathf.Lerp(1, 0, Vector3.Distance(transform.position, start) / totalDistance);
-                spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.g, alpha);
+                //float alpha = Mathf.Lerp(1, 0, Vector3.Distance(transform.position, start) / totalDistance);
+                //spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.g, alpha);
             }
             if (Vector3.Dot(dest - transform.position, dir) < 0)
             {

@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 616606968074393334}
   - component: {fileID: 1655536893}
-  m_Layer: 6
+  - component: {fileID: -4787843309090023088}
+  - component: {fileID: 3483675647016593175}
+  m_Layer: 3
   m_Name: Blue Tile
   m_TagString: Render
   m_Icon: {fileID: 0}
@@ -54,6 +56,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-4787843309090023088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616606968074397962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6907761a3c2c02248ab5280996dd1e9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilities:
+    preventMoving: 0
+    canExplodes: 0
+  isPoolDisplay: 0
+  infoId: 0
+  moveSpeed: 30
+--- !u!65 &3483675647016593175
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616606968074397962}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8, y: 10, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &919132147956646072
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,7 +99,7 @@ GameObject:
   - component: {fileID: 920700159}
   - component: {fileID: 919132147956646073}
   m_Layer: 6
-  m_Name: Block Parts Blue FX
+  m_Name: Block Parts FX
   m_TagString: Render
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +167,7 @@ GameObject:
   - component: {fileID: 4333193960962068413}
   - component: {fileID: 5236148400284697793}
   m_Layer: 0
-  m_Name: Blue Tile Mesh
+  m_Name: Tile Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,17 +258,17 @@ PrefabInstance:
     - target: {fileID: 4328278114645919264, guid: 126d3e09cd6e41e43b922111f3e059b3,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.75
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4328278114645919264, guid: 126d3e09cd6e41e43b922111f3e059b3,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.75
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4328278114645919264, guid: 126d3e09cd6e41e43b922111f3e059b3,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.75
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4328278114645919264, guid: 126d3e09cd6e41e43b922111f3e059b3,
         type: 3}
@@ -421,6 +454,11 @@ PrefabInstance:
         type: 3}
       propertyPath: RotationModule.y.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3966343473026713424, guid: 29bd4c6965ededd49aa6487a676f82ee,
+        type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 3966343473026713424, guid: 29bd4c6965ededd49aa6487a676f82ee,
         type: 3}
@@ -861,6 +899,11 @@ PrefabInstance:
         type: 3}
       propertyPath: RotationModule.y.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8269806033113661003, guid: 29bd4c6965ededd49aa6487a676f82ee,
+        type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8269806033113661003, guid: 29bd4c6965ededd49aa6487a676f82ee,
         type: 3}
@@ -1336,6 +1379,11 @@ PrefabInstance:
         type: 3}
       propertyPath: RotationModule.y.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8913887568726663845, guid: 29bd4c6965ededd49aa6487a676f82ee,
+        type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8913887568726663845, guid: 29bd4c6965ededd49aa6487a676f82ee,
         type: 3}
@@ -1874,6 +1922,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 550155692244793663, guid: 8e17a58ac0caa4e42a724f08ac078cdb,
         type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 550155692244793663, guid: 8e17a58ac0caa4e42a724f08ac078cdb,
+        type: 3}
       propertyPath: SizeModule.y.minMaxState
       value: 1
       objectReference: {fileID: 0}
@@ -1986,6 +2039,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeModule.curve.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440643777299957703, guid: 8e17a58ac0caa4e42a724f08ac078cdb,
+        type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 3440643777299957703, guid: 8e17a58ac0caa4e42a724f08ac078cdb,
         type: 3}
@@ -2234,6 +2292,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6623336022779351222, guid: 8e17a58ac0caa4e42a724f08ac078cdb,
         type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623336022779351222, guid: 8e17a58ac0caa4e42a724f08ac078cdb,
+        type: 3}
       propertyPath: SizeModule.y.minMaxState
       value: 1
       objectReference: {fileID: 0}
@@ -2396,6 +2459,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeModule.curve.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7719409997084913465, guid: 8e17a58ac0caa4e42a724f08ac078cdb,
+        type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7719409997084913465, guid: 8e17a58ac0caa4e42a724f08ac078cdb,
         type: 3}

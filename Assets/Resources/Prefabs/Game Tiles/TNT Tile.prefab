@@ -38555,7 +38555,9 @@ GameObject:
   m_Component:
   - component: {fileID: 379554138303041678}
   - component: {fileID: 3774533653838558144}
-  m_Layer: 0
+  - component: {fileID: -2387293814484245667}
+  - component: {fileID: 2503498476579989220}
+  m_Layer: 3
   m_Name: TNT Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38570,7 +38572,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 379554138303041679}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.6, y: 42.8, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -38605,6 +38607,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-2387293814484245667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379554138303041679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6907761a3c2c02248ab5280996dd1e9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilities:
+    preventMoving: 0
+    canExplodes: 1
+  isPoolDisplay: 0
+  infoId: 0
+  moveSpeed: 30
+--- !u!65 &2503498476579989220
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379554138303041679}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8, y: 10, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &379554138324947975
 GameObject:
   m_ObjectHideFlags: 0
@@ -49227,7 +49260,7 @@ ParticleSystem:
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 90, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -68024,6 +68057,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TNT Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 6359228795147838655, guid: 86675985d5118ba4e93c6daeb9f13c39,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8915419666572878088, guid: 86675985d5118ba4e93c6daeb9f13c39,
         type: 3}

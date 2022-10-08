@@ -217,6 +217,7 @@ public class GameGrid : MonoBehaviour
         outLocation.x += tileSize.x * (float)(gridAddress % gridSize.x);
         outLocation.y += tileSize.y * (float)(gridAddress / gridSize.x);
         outLocation += center;
+        outLocation.z = -gridAddress;
 
         return outLocation;
     }
@@ -379,7 +380,7 @@ public class GameGrid : MonoBehaviour
         GameObject prefab = this.tileInfoArr[infoId].tilePrefab;
         var tileGObj = Instantiate(prefab);
         tileGObj.transform.position = worldPos;
-        tileGObj.transform.localScale = new(tileSize.x / 0.32f, tileSize.y / 0.32f, 0);
+        //tileGObj.transform.localScale = new(tileSize.x / 0.32f, tileSize.y / 0.32f, 0);
         var tile = tileGObj.GetComponent<GameTile>();
         tile.Init(this, gridAddress, infoId, playSpawnEffect);
 
@@ -477,8 +478,6 @@ public class GameGrid : MonoBehaviour
         float swipeLength = 0;
         GameTile newTile = CreateTile(tileInfoIdPool[0], Vector3.zero, -1, false);
         //newTile.gameObject.name = "new tile";
-        SpriteRenderer renderer = newTile.GetSpriteRenderer();
-        renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.g, 0); // hide this tile
         bool swipeDirectionConfirmed = false;
         bool cancel = false;
 
@@ -495,8 +494,8 @@ public class GameGrid : MonoBehaviour
 
             swipeLength = Vector3.Distance(startClickPos, Input.mousePosition);
 
-            float alpha = Mathf.Lerp(0, 1, swipeLength / confirmSwipeDirLength);
-            renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.g, alpha);
+            //float alpha = Mathf.Lerp(0, 1, swipeLength / confirmSwipeDirLength);
+            //renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.g, alpha);
 
             if (swipeLength >= confirmMoveTileLength && swipeDirectionConfirmed)
             {

@@ -35,7 +35,6 @@ public class TilePoolDisplayer : MonoBehaviour
             {
                 int index = listTile.IndexOf(t);
                 t.StartMoving(GetWorldPositionAtIndex(index), false);
-                t.GetComponent<SpriteRenderer>().sortingOrder = -index;
             }
         }
         else if (grid.tileInfoIdPool.Count > listTile.Count)
@@ -49,7 +48,6 @@ public class TilePoolDisplayer : MonoBehaviour
 
                 var tile = CreateTile(infoId, spawnPosition, i);
                 listTile.Add(tile);
-                tile.GetComponent<SpriteRenderer>().sortingOrder = -listTile.IndexOf(tile);
             }
         }
     }
@@ -64,7 +62,6 @@ public class TilePoolDisplayer : MonoBehaviour
 
             var tile = CreateTile(infoId, spawnPosition, i);
             listTile.Add(tile);
-            tile.GetComponent<SpriteRenderer>().sortingOrder = -listTile.IndexOf(tile);
         }
     }
 
@@ -74,6 +71,7 @@ public class TilePoolDisplayer : MonoBehaviour
         Vector3 outLocation = new(-(grid.poolSize * 0.25f) * tileDisplaySize.x + (tileDisplaySize.x * 0.5f - tileDisplaySize.x * 0.25f), 0.0f, 0.0f); // very left position
         outLocation.x += (tileDisplaySize.x * 0.5f) * (float)(poolIndex);
         outLocation += center;
+        outLocation.z = poolIndex;
 
         return outLocation;
     }
@@ -83,9 +81,10 @@ public class TilePoolDisplayer : MonoBehaviour
         GameObject prefab = grid.TileInfoArr[infoId].tilePrefab;
         var tileGObj = Instantiate(prefab);
         tileGObj.transform.position = worldPos;
-        tileGObj.transform.localScale = new(tileDisplaySize.x / 0.32f, tileDisplaySize.y / 0.32f, 0);
-        var tile = tileGObj.GetComponent<GameTile>();
+        tileGObj.transform.localScale = new(tileDisplaySize.x, tileDisplaySize.y, 0);
         tileGObj.GetComponent<BoxCollider>().enabled = false;
+
+        var tile = tileGObj.GetComponent<GameTile>();
         tile.Init(grid, poolIndex, infoId, playSpawnEffect);
         tile.isPoolDisplay = true;
 
