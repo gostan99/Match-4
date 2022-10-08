@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class TilePoolDisplayer : MonoBehaviour
 {
-    [SerializeField] private Vector2 tileDisplaySize;
+    [SerializeField] private Vector2 tileScale;
 
     private List<GameTile> listTile = new();
     private GameGrid grid;
@@ -22,8 +22,8 @@ public class TilePoolDisplayer : MonoBehaviour
 
     private void Update()
     {
-        int diff = Mathf.Abs(grid.tileInfoIdPool.Count - listTile.Count);
-        if (grid.tileInfoIdPool.Count < listTile.Count)
+        int diff = Mathf.Abs(grid.TileInfoIdPool.Count - listTile.Count);
+        if (grid.TileInfoIdPool.Count < listTile.Count)
         {
             for (int i = 0; i < diff; i++)
             {
@@ -37,10 +37,10 @@ public class TilePoolDisplayer : MonoBehaviour
                 t.StartMoving(GetWorldPositionAtIndex(index), false);
             }
         }
-        else if (grid.tileInfoIdPool.Count > listTile.Count)
+        else if (grid.TileInfoIdPool.Count > listTile.Count)
         {
             Vector3 spawnPosition;
-            var list = grid.tileInfoIdPool;
+            var list = grid.TileInfoIdPool;
             for (int i = list.Count - diff; i < list.Count; i++)
             {
                 int infoId = list[i];
@@ -55,9 +55,9 @@ public class TilePoolDisplayer : MonoBehaviour
     private void InitPool()
     {
         Vector3 spawnPosition;
-        for (int i = 0; i < grid.tileInfoIdPool.Count; ++i)
+        for (int i = 0; i < grid.TileInfoIdPool.Count; ++i)
         {
-            int infoId = grid.tileInfoIdPool[i];
+            int infoId = grid.TileInfoIdPool[i];
             spawnPosition = GetWorldPositionAtIndex(i);
 
             var tile = CreateTile(infoId, spawnPosition, i);
@@ -68,8 +68,9 @@ public class TilePoolDisplayer : MonoBehaviour
     private Vector3 GetWorldPositionAtIndex(int poolIndex)
     {
         Vector3 center = transform.position;
-        Vector3 outLocation = new(-(grid.poolSize * 0.25f) * tileDisplaySize.x + (tileDisplaySize.x * 0.5f - tileDisplaySize.x * 0.25f), 0.0f, 0.0f); // very left position
-        outLocation.x += (tileDisplaySize.x * 0.5f) * (float)(poolIndex);
+        //  +(grid.TileSize.x * 0.5f - grid.TileSize.x * 0.25f)
+        Vector3 outLocation = new(-(grid.poolSize * 0.5f) * (grid.TileSize.x * tileScale.x * 0.5f) + (grid.TileSize.x * tileScale.x * 0.25f), 0.0f, 0.0f); // very left position
+        outLocation.x += (grid.TileSize.x * tileScale.x * 0.5f) * (float)(poolIndex);
         outLocation += center;
         outLocation.z = poolIndex;
 
@@ -81,12 +82,15 @@ public class TilePoolDisplayer : MonoBehaviour
         GameObject prefab = grid.TileInfoArr[infoId].tilePrefab;
         var tileGObj = Instantiate(prefab);
         tileGObj.transform.position = worldPos;
-        tileGObj.transform.localScale = new(tileDisplaySize.x, tileDisplaySize.y, 0);
+        tileGObj.transform.localScale = new(tileScale.x, tileScale.y, 0);
         tileGObj.GetComponent<BoxCollider>().enabled = false;
 
         var tile = tileGObj.GetComponent<GameTile>();
         tile.Init(grid, poolIndex, infoId, playSpawnEffect);
         tile.isPoolDisplay = true;
+
+        if (!tile.abilities.CanExplodes)
+            tileGObj.GetComponent<Animator>().enabled = false;
 
         return tile;
     }

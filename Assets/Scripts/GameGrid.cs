@@ -18,7 +18,7 @@ public class GameGrid : MonoBehaviour
 
     public TileMoveType lastMoveType;
     public List<GameTile> bombsBeingExplode;
-    public List<int> tileInfoIdPool;
+    public List<int> TileInfoIdPool => tileInfoIdPool;
 
     [Header("\nPARAMETERS\n")]
     public int poolSize;
@@ -35,6 +35,7 @@ public class GameGrid : MonoBehaviour
 
     private GameTile[] tiles;
     private List<GameTile> movingTiles;
+    private List<int> tileInfoIdPool;
     private GameMode gameMode;
     private GameTile currentlySelectedTile;
     private int combos = 1;
@@ -74,7 +75,10 @@ public class GameGrid : MonoBehaviour
 
         for (int i = 0; i < initialPoolElementNum; i++)
         {
+            float stored = tileInfoArr[1].probability;
+            tileInfoArr[1].probability = 0;
             tileInfoIdPool.Add(GetRandomTileInfoId());
+            tileInfoArr[1].probability = stored;
         }
 
         StartCoroutine(DelayExecuteMatch());
@@ -153,7 +157,10 @@ public class GameGrid : MonoBehaviour
         if (tileInfoIdPool.Count + gain > poolSize) gain = poolSize - tileInfoIdPool.Count;
         for (int i = 0; i < gain; i++)
         {
+            float stored = tileInfoArr[1].probability;
+            tileInfoArr[1].probability = 0;
             tileInfoIdPool.Add(GetRandomTileInfoId());
+            tileInfoArr[1].probability = stored;
         }
 
         // Add score based on tile count.
@@ -337,15 +344,32 @@ public class GameGrid : MonoBehaviour
 
     public bool AreAddressesNeighbours(int gridAddressA, int gridAddressB)
     {
-        const float farthestNeighbourDistance = 1.41421356237f; // Mathf.Sqrt(2)
-        if ((Mathf.Min(gridAddressA, gridAddressB) >= 0)
-            && (Mathf.Max(gridAddressA, gridAddressB) < (gridSize.x * gridSize.y))
-            && (gridAddressA != gridAddressB))
-        {
-            var gridAddressA2D = Convert1DTo2DGridAddress(gridAddressA);
-            var gridAddressB2D = Convert1DTo2DGridAddress(gridAddressB);
-            return Vector2Int.Distance(gridAddressA2D, gridAddressB2D) <= farthestNeighbourDistance;
-        }
+        //const float farthestNeighbourDistance = 1.41421356237f; // Mathf.Sqrt(2)
+        //if ((Mathf.Min(gridAddressA, gridAddressB) >= 0)
+        //    && (Mathf.Max(gridAddressA, gridAddressB) < (gridSize.x * gridSize.y))
+        //    && (gridAddressA != gridAddressB))
+        //{
+        //    var gridAddressA2D = Convert1DTo2DGridAddress(gridAddressA);
+        //    var gridAddressB2D = Convert1DTo2DGridAddress(gridAddressB);
+        //    return Vector2Int.Distance(gridAddressA2D, gridAddressB2D) <= farthestNeighbourDistance;
+        //}
+
+        Vector2Int gridAddressA2D = Convert1DTo2DGridAddress(gridAddressA);
+        Vector2Int gridAddressB2D = Convert1DTo2DGridAddress(gridAddressB);
+
+        Vector2Int top = new(gridAddressA2D.x, gridAddressA2D.y + 1);
+        int top1D = Convert2DTo1DGridAddress(top);
+        if (!IsOffTheGrid(top)) if (top1D == gridAddressB) return true;
+        Vector2Int down = new(gridAddressA2D.x, gridAddressA2D.y - 1);
+        int down1D = Convert2DTo1DGridAddress(down);
+        if (!IsOffTheGrid(down)) if (down1D == gridAddressB) return true;
+        Vector2Int left = new(gridAddressA2D.x - 1, gridAddressA2D.y);
+        int left1D = Convert2DTo1DGridAddress(left);
+        if (!IsOffTheGrid(left)) if (left1D == gridAddressB) return true;
+        Vector2Int right = new(gridAddressA2D.x + 1, gridAddressA2D.y);
+        int right1D = Convert2DTo1DGridAddress(right);
+        if (!IsOffTheGrid(right)) if (right1D == gridAddressB) return true;
+
         return false;
     }
 
@@ -377,7 +401,7 @@ public class GameGrid : MonoBehaviour
 
     private GameTile CreateTile(int infoId, Vector3 worldPos, int gridAddress, bool playSpawnEffect = true)
     {
-        GameObject prefab = this.tileInfoArr[infoId].tilePrefab;
+        GameObject prefab = tileInfoArr[infoId].tilePrefab;
         var tileGObj = Instantiate(prefab);
         tileGObj.transform.position = worldPos;
         //tileGObj.transform.localScale = new(tileSize.x / 0.32f, tileSize.y / 0.32f, 0);
@@ -390,31 +414,29 @@ public class GameGrid : MonoBehaviour
     private HashSet<int> FindMatchedAddresses()
     {
         HashSet<int> matchedAddresses = new();
+
         foreach (var tile in tiles)
         {
-            Vector3 halfExtents = (Vector3)(tileSize / 2);
-            Vector3 center = tile.transform.position + halfExtents;
-            var colliders = Physics.OverlapBox(center, halfExtents, Quaternion.identity, LayerMask.GetMask("Game Tile"));
+            Vector2Int adress2D = Convert1DTo2DGridAddress(tile.GetAddress());
 
-            if (colliders.Length < 4) continue;
+            Vector2Int top = new(adress2D.x + 1, adress2D.y);
+            Vector2Int topRight = new(adress2D.x + 1, adress2D.y + 1);
+            Vector2Int right = new(adress2D.x, adress2D.y + 1);
+            if (IsOffTheGrid(top) || IsOffTheGrid(topRight) || IsOffTheGrid(right))
+                continue;
 
-            HashSet<int> buffer = new();
-            bool allMatch = true;
-            GameTile tileA = colliders[0].GetComponent<GameTile>();
-            buffer.Add(tileA.GetAddress());
-            for (int i = 1; i < colliders.Length; i++)
+            int top1D = Convert2DTo1DGridAddress(top);
+            int topRight1D = Convert2DTo1DGridAddress(topRight);
+            int right1D = Convert2DTo1DGridAddress(right);
+
+            if (tiles[top1D].InfoId == tile.InfoId
+                && tiles[topRight1D].InfoId == tile.InfoId
+                && tiles[right1D].InfoId == tile.InfoId)
             {
-                GameTile tileB = colliders[i].GetComponent<GameTile>();
-                if (tileA.InfoId != tileB.InfoId)
-                {
-                    allMatch = false;
-                    break;
-                }
-                buffer.Add(tileB.GetAddress());
-            }
-            if (allMatch)
-            {
-                matchedAddresses.UnionWith(buffer);
+                matchedAddresses.Add(tile.GetAddress());
+                matchedAddresses.Add(top1D);
+                matchedAddresses.Add(topRight1D);
+                matchedAddresses.Add(right1D);
             }
         }
 
