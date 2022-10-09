@@ -54,7 +54,7 @@ public class GameTile : MonoBehaviour
 
     public void OnMatched(TileMoveType moveType)
     {
-        PlayMatchEffect(() => grid.OnTileFinishedMatching(this));
+        StartCoroutine(WaitFor(0.3f, () => PlayMatchEffect(() => grid.OnTileFinishedMatching(this))));
     }
 
     // When player click on this tile
@@ -121,7 +121,7 @@ public class GameTile : MonoBehaviour
     {
         matchAnim.Play("StartAnimation");
         if (wickSparcles is not null) wickSparcles.gameObject.SetActive(true);
-        StartCoroutine(WaitFor(1, callback));
+        StartCoroutine(WaitFor(1.0f, callback));
     }
 
     private void PlaySpawnEffect()
