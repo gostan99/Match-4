@@ -38632,6 +38632,7 @@ MonoBehaviour:
   - {fileID: 379554138324947975}
   - {fileID: 379554138994933373}
   - {fileID: 379554138519202080}
+  tileMesh: {fileID: 6702753310746867336}
 --- !u!65 &2503498476579989220
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68060,6 +68061,12 @@ PrefabInstance:
 --- !u!4 &1809659712711412720 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2042735999840475591, guid: 86675985d5118ba4e93c6daeb9f13c39,
+    type: 3}
+  m_PrefabInstance: {fileID: 379554137389077047}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6702753310746867336 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6359228795147838655, guid: 86675985d5118ba4e93c6daeb9f13c39,
     type: 3}
   m_PrefabInstance: {fileID: 379554137389077047}
   m_PrefabAsset: {fileID: 0}

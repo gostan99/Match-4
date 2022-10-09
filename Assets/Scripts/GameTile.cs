@@ -13,6 +13,7 @@ public class GameTile : MonoBehaviour
     [SerializeField] private int infoId;
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameObject[] fx;
+    [SerializeField] private GameObject tileMesh;
 
     private GameGrid grid;
     private int address;
@@ -97,9 +98,11 @@ public class GameTile : MonoBehaviour
     public void DestroyTile()
     {
         boxCollider.enabled = false;
+        tileMesh.SetActive(false);
+        transform.Find("Wick Sparcles FX")?.gameObject.SetActive(false);
         if (abilities.CanExplodes)
             grid.onExecuteMatch.RemoveListener(OnExecuteMatch);
-        Destroy(gameObject);
+        Destroy(gameObject, 2f);
     }
 
     private void OnExecuteMatch(List<int> matchedAddress)
@@ -121,7 +124,7 @@ public class GameTile : MonoBehaviour
     {
         matchAnim.Play("StartAnimation");
         if (wickSparcles is not null) wickSparcles.gameObject.SetActive(true);
-        StartCoroutine(WaitFor(1.0f, callback));
+        StartCoroutine(WaitFor(1, callback));
     }
 
     private void PlaySpawnEffect()

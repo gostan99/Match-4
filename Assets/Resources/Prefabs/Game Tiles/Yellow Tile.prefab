@@ -38879,6 +38879,7 @@ MonoBehaviour:
   moveSpeed: 30
   fx:
   - {fileID: 8463277566006793183}
+  tileMesh: {fileID: 8463277567589415929}
 --- !u!65 &580556289947303623
 BoxCollider:
   m_ObjectHideFlags: 0
