@@ -4881,7 +4881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilities:
-    preventMoving: 1
+    preventMoving: 0
     canExplodes: 0
   isPoolDisplay: 0
   infoId: 0

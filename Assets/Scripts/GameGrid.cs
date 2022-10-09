@@ -36,6 +36,8 @@ public class GameGrid : MonoBehaviour
 
     private GameTile[] tiles;
     private List<GameTile> movingTiles;
+    private List<int> rowNotContainImovableTile;
+    private List<int> columnNotContainImovableTile;
     private List<int> tileInfoIdPool;
     private GameMode gameMode;
     private GameTile currentlySelectedTile;
@@ -51,6 +53,17 @@ public class GameGrid : MonoBehaviour
     {
         tiles = new GameTile[gridSize.x * gridSize.y];
         movingTiles = new();
+        rowNotContainImovableTile = new();
+        columnNotContainImovableTile = new();
+        for (int y = 0; y < gridSize.y; y++)
+        {
+            rowNotContainImovableTile.Add(y);
+        }
+        for (int x = 0; x < gridSize.x; x++)
+        {
+            columnNotContainImovableTile.Add(x);
+        }
+
         tilesBeingDestroyed = new();
         tileInfoIdPool = new();
 
@@ -430,7 +443,16 @@ public class GameGrid : MonoBehaviour
             int topRight1D = Convert2DTo1DGridAddress(topRight);
             int right1D = Convert2DTo1DGridAddress(right);
 
-            if (tiles[top1D].InfoId == 1
+            // Imovable tile can not match
+            if ((tiles[top1D].InfoId == 0)
+            && tiles[topRight1D].InfoId == 0
+            && tiles[right1D].InfoId == 0
+            && tile.InfoId == 0)
+            {
+                continue;
+            }
+            // TNT tile can not match
+            if ((tiles[top1D].InfoId == 1)
             && tiles[topRight1D].InfoId == 1
             && tiles[right1D].InfoId == 1
             && tile.InfoId == 1)
@@ -473,6 +495,7 @@ public class GameGrid : MonoBehaviour
                 if (++moveSuccessCount == imovablePoint)
                 {
                     moveSuccessCount = 0;
+
                     ReplaceRandomTileWithAnImovableTile();
                 }
                 break;
@@ -497,9 +520,25 @@ public class GameGrid : MonoBehaviour
     {
         int address = UnityEngine.Random.Range(0, tiles.Length);
         var tile = tiles[address];
+        while (!tile.abilities.CanMove)
+        {
+            address = UnityEngine.Random.Range(0, tiles.Length);
+            tile = tiles[address];
+        }
+        var address2D = Convert1DTo2DGridAddress(address);
+        rowNotContainImovableTile.Remove(address2D.y);
+        columnNotContainImovableTile.Remove(address2D.x);
         Array.Clear(tiles, address, 1);
         tiles[address] = CreateTile(0, tile.transform.position, tile.GetAddress());
         tile.DestroyTile();
+
+        if (rowNotContainImovableTile.Count == 0 && columnNotContainImovableTile.Count == 0)
+            gameMode.GameOver();
+    }
+
+    private void Update()
+    {
+        Debug.Log("s");
     }
 
     private IEnumerator HandleInput(GameTile clickedTile)

@@ -95,28 +95,31 @@ MonoBehaviour:
       m_Calls: []
   lastMoveType: 0
   bombsBeingExplode: []
-  poolSize: 16
-  initialPoolElementNum: 16
+  poolSize: 50
+  initialPoolElementNum: 50
   tileInfoArr:
-  - tilePrefab: {fileID: 8454407298532773667, guid: 5c8eff0ed837c4b468aa4a33bb0238e3,
+  - tilePrefab: {fileID: 616606968074397962, guid: 30e65cc6b9be997458766d5a07aa81cd,
       type: 3}
     probability: 0
   - tilePrefab: {fileID: 379554138303041679, guid: 5fcb9fd0a48100f4da348c3b4fad2d07,
       type: 3}
-    probability: 1
+    probability: 0.5
   - tilePrefab: {fileID: 616606968074397962, guid: e5f8ebd8bf320824987c3fcc089615a5,
       type: 3}
-    probability: 0.1
+    probability: 1
   - tilePrefab: {fileID: 6198395559322956460, guid: d74c5ce48928c9249b2fa3e466fe229a,
       type: 3}
-    probability: 0.1
+    probability: 1
   - tilePrefab: {fileID: 8463277567585367186, guid: ff16112cfca417f40ad78727ca7df163,
       type: 3}
-    probability: 0.1
+    probability: 1
+  - tilePrefab: {fileID: 8454407298532773667, guid: 5c8eff0ed837c4b468aa4a33bb0238e3,
+      type: 3}
+    probability: 1
   tileSize: {x: 8, y: 8}
   gridSize: {x: 4, y: 4}
   minimumMatchedCount: 4
-  imovablePoint: 4
+  imovablePoint: 2
   confirmSwipeDirLength: 100
   confirmMoveTileLength: 130
   matchingDelayTime: 0
