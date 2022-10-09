@@ -77,7 +77,7 @@ public class TilePoolDisplayer : MonoBehaviour
         return outLocation;
     }
 
-    private GameTile CreateTile(int infoId, Vector3 worldPos, int poolIndex, bool playSpawnEffect = true)
+    private GameTile CreateTile(int infoId, Vector3 worldPos, int poolIndex, bool playSpawnEffect = false)
     {
         GameObject prefab = grid.TileInfoArr[infoId].tilePrefab;
         var tileGObj = Instantiate(prefab);

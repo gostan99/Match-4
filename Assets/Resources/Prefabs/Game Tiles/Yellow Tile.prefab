@@ -9721,7 +9721,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8463277566006793182
 Transform:
   m_ObjectHideFlags: 0
@@ -38847,7 +38847,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8463277567585367186}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1b3cae5b26a14b54d95c61ac39bd3121, type: 2}
   m_CullingMode: 0
@@ -38877,6 +38877,8 @@ MonoBehaviour:
   isPoolDisplay: 0
   infoId: 0
   moveSpeed: 30
+  fx:
+  - {fileID: 8463277566006793183}
 --- !u!65 &580556289947303623
 BoxCollider:
   m_ObjectHideFlags: 0

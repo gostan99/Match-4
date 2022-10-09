@@ -12,6 +12,7 @@ public class GameTile : MonoBehaviour
 
     [SerializeField] private int infoId;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private GameObject[] fx;
 
     private GameGrid grid;
     private int address;
@@ -119,12 +120,34 @@ public class GameTile : MonoBehaviour
     private void PlayMatchEffect(Action callback)
     {
         matchAnim.Play("StartAnimation");
+        if (wickSparcles is not null) wickSparcles.gameObject.SetActive(true);
         StartCoroutine(WaitFor(1, callback));
     }
 
     private void PlaySpawnEffect()
     {
-        StartCoroutine(WaitFor(1.0f));
+        //StartCoroutine(WaitFor(1));
+        StartCoroutine(SpawnEffect(.3f));
+    }
+
+    private IEnumerator SpawnEffect(float time)
+    {
+        float timer = 0;
+        float scalar = 0;
+        while (scalar < 1)
+        {
+            scalar = timer / time;
+            transform.localScale = Vector3.one * scalar;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        transform.localScale = Vector3.one;
+
+        foreach (var f in fx)
+        {
+            f.SetActive(true);
+        }
+        matchAnim.enabled = true;
     }
 
     private void PlayStartMovingEffect()
