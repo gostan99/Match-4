@@ -38626,7 +38626,6 @@ MonoBehaviour:
   infoId: 0
   moveSpeed: 30
   fx:
-  - {fileID: 6018882520827106826}
   - {fileID: 379554138236390359}
   - {fileID: 379554138545034972}
   - {fileID: 379554138792020312}
