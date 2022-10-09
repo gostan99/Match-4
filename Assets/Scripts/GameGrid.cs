@@ -430,6 +430,14 @@ public class GameGrid : MonoBehaviour
             int topRight1D = Convert2DTo1DGridAddress(topRight);
             int right1D = Convert2DTo1DGridAddress(right);
 
+            if (tiles[top1D].InfoId == 1
+            && tiles[topRight1D].InfoId == 1
+            && tiles[right1D].InfoId == 1
+            && tile.InfoId == 1)
+            {
+                continue;
+            }
+
             if (tiles[top1D].InfoId == tile.InfoId
                 && tiles[topRight1D].InfoId == tile.InfoId
                 && tiles[right1D].InfoId == tile.InfoId)
