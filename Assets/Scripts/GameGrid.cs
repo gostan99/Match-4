@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using Color = UnityEngine.Color;
 
 public class GameGrid : MonoBehaviour
 {
@@ -496,7 +493,7 @@ public class GameGrid : MonoBehaviour
                 {
                     moveSuccessCount = 0;
 
-                    ReplaceRandomTileWithAnImovableTile();
+                    MakeRandomTileBecomesImovable();
                 }
                 break;
 
@@ -516,7 +513,7 @@ public class GameGrid : MonoBehaviour
         }
     }
 
-    private void ReplaceRandomTileWithAnImovableTile()
+    private void MakeRandomTileBecomesImovable()
     {
         int address = UnityEngine.Random.Range(0, tiles.Length);
         var tile = tiles[address];
@@ -528,18 +525,19 @@ public class GameGrid : MonoBehaviour
         var address2D = Convert1DTo2DGridAddress(address);
         rowNotContainImovableTile.Remove(address2D.y);
         columnNotContainImovableTile.Remove(address2D.x);
-        Array.Clear(tiles, address, 1);
-        tiles[address] = CreateTile(0, tile.transform.position, tile.GetAddress());
-        tile.DestroyTile();
+        //Array.Clear(tiles, address, 1);
+        //tiles[address] = CreateTile(0, tile.transform.position, tile.GetAddress());
+        //tile.DestroyTile();
+        tile.BecomesImovable();
 
         if (rowNotContainImovableTile.Count == 0 && columnNotContainImovableTile.Count == 0)
             gameMode.GameOver();
     }
 
-    private void Update()
-    {
-        Debug.Log("s");
-    }
+    //private void Update()
+    //{
+    //    Debug.Log("s");
+    //}
 
     private IEnumerator HandleInput(GameTile clickedTile)
     {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class GameTile : MonoBehaviour
@@ -12,8 +13,10 @@ public class GameTile : MonoBehaviour
 
     [SerializeField] private int infoId;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float brightnessTarget;
     [SerializeField] private GameObject[] fx;
     [SerializeField] private GameObject tileMesh;
+    [SerializeField] private GameObject tileMeshClone;
 
     private GameGrid grid;
     private int address;
@@ -23,6 +26,7 @@ public class GameTile : MonoBehaviour
     private Animator matchAnim;
     private Transform wickSparcles;
     private float matchAnimLength;
+    private Material tileMeshCloneMaterial;
 
     public void Init(GameGrid grid, int address, int infoId, bool playSpawnEffect = true)
     {
@@ -31,6 +35,8 @@ public class GameTile : MonoBehaviour
         this.infoId = infoId;
         boxCollider = GetComponent<BoxCollider>();
         matchAnim = GetComponent<Animator>();
+        tileMeshCloneMaterial = tileMeshClone.GetComponent<Renderer>().material;
+        tileMeshClone.SetActive(false);
 
         if (abilities.CanExplodes)
         {
@@ -95,14 +101,43 @@ public class GameTile : MonoBehaviour
         };
     }
 
+    public void BecomesImovable()
+    {
+        tileMesh.SetActive(false);
+        tileMeshClone.SetActive(true);
+        abilities.CanMove = true;
+        StartCoroutine(BecomesImovableFX());
+    }
+
     public void DestroyTile()
     {
         boxCollider.enabled = false;
         tileMesh.SetActive(false);
+        tileMeshClone.SetActive(false);
         transform.Find("Wick Sparcles FX")?.gameObject.SetActive(false);
         if (abilities.CanExplodes)
             grid.onExecuteMatch.RemoveListener(OnExecuteMatch);
         Destroy(gameObject, 2f);
+    }
+
+    private IEnumerator BecomesImovableFX()
+    {
+        float o_brightness;
+        Color.RGBToHSV(tileMeshCloneMaterial.color, out float h, out float s, out o_brightness);
+
+        float time = 0.3f;
+        float timer = 0;
+        float brightness;
+
+        while (timer < time)
+        {
+            brightness = Mathf.Lerp(o_brightness, brightnessTarget, timer / time);
+            tileMeshCloneMaterial.SetColor("_BaseColor", Color.HSVToRGB(h, s, brightness));
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        tileMeshCloneMaterial.SetColor("_BaseColor", Color.HSVToRGB(h, s, brightnessTarget));
     }
 
     private void OnExecuteMatch(List<int> matchedAddress)
@@ -233,7 +268,7 @@ public enum TileMoveType
 [Serializable]
 public struct TileAbilities
 {
-    public bool CanMove { get => !preventMoving; private set { } }
+    public bool CanMove { get => !preventMoving; set { preventMoving = value; } }
     public bool CanExplodes { get => canExplodes; private set { } }
 
     [SerializeField] private bool preventMoving;

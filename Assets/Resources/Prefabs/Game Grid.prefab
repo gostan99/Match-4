@@ -95,8 +95,8 @@ MonoBehaviour:
       m_Calls: []
   lastMoveType: 0
   bombsBeingExplode: []
-  poolSize: 50
-  initialPoolElementNum: 50
+  poolSize: 16
+  initialPoolElementNum: 16
   tileInfoArr:
   - tilePrefab: {fileID: 616606968074397962, guid: 30e65cc6b9be997458766d5a07aa81cd,
       type: 3}
@@ -119,7 +119,7 @@ MonoBehaviour:
   tileSize: {x: 8, y: 8}
   gridSize: {x: 4, y: 4}
   minimumMatchedCount: 4
-  imovablePoint: 2
+  imovablePoint: 4
   confirmSwipeDirLength: 100
   confirmMoveTileLength: 130
   matchingDelayTime: 0
