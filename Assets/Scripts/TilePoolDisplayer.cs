@@ -34,8 +34,9 @@ public class TilePoolDisplayer : MonoBehaviour
             foreach (var t in listTile)
             {
                 int index = listTile.IndexOf(t);
-                t.StartMoving(GetWorldPositionAtIndex(index), false);
+                t.StartMoving(GetWorldPositionAtIndex(index));
             }
+            listTile[0].transform.Find("Tile Mesh").localScale = new(1.3f, 1.3f, 1.3f);
         }
         else if (grid.TileInfoIdPool.Count > listTile.Count)
         {
@@ -49,6 +50,7 @@ public class TilePoolDisplayer : MonoBehaviour
                 var tile = CreateTile(infoId, spawnPosition, i);
                 listTile.Add(tile);
             }
+            listTile[0].transform.Find("Tile Mesh").localScale = new(1.3f, 1.3f, 1.3f);
         }
     }
 

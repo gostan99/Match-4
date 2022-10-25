@@ -545,6 +545,9 @@ public class GameGrid : MonoBehaviour
         Vector2Int swipeDir = Vector2Int.zero;
         float swipeLength = 0;
         GameTile newTile = CreateTile(tileInfoIdPool[0], Vector3.zero, -1, false);
+        var newTileMesh = newTile.transform.Find("Tile Mesh");
+        Vector3 newTileMeshLocalPosOrigin = newTileMesh.localPosition;
+        newTileMesh.localPosition = newTileMesh.localPosition - Vector3.forward; // make this tile appear infront
         Animator animator = newTile.GetComponent<Animator>();
         animator.enabled = false;
         //newTile.gameObject.name = "new tile";
@@ -582,7 +585,7 @@ public class GameGrid : MonoBehaviour
 
                     Vector3 dest = GetWorldPosFromGridAddress(movingTiles[^1].GetAddress())
                         + new Vector3(tileSize.x * swipeDir.x, tileSize.y * swipeDir.y, 0);
-                    movingTiles[^1].StartMoving(dest, true);
+                    movingTiles[^1].StartMoving(dest, 0);
                     movingTiles.Add(newTile);
 
                     tileInfoIdPool.Remove(tileInfoIdPool[0]);
@@ -595,6 +598,7 @@ public class GameGrid : MonoBehaviour
 
                     cancel = true;
                 }
+                newTileMesh.localPosition = newTileMeshLocalPosOrigin;
                 break;
             }
             else if (swipeLength >= confirmSwipeDirLength && !swipeDirectionConfirmed)

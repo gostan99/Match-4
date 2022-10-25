@@ -84,11 +84,11 @@ public class GameTile : MonoBehaviour
     }
 
     // use this to destroy this tile after finish moving
-    public void StartMoving(Vector3 dest, bool withFadeEffect)
+    public void StartMoving(Vector3 dest, float scaleTarget = 1)
     {
         State = TileState.Moving;
         landingAddress = -1;
-        movingCoroutine = StartCoroutine(Moving(dest, withFadeEffect));
+        movingCoroutine = StartCoroutine(Moving(dest, scaleTarget));
         PlayStartMovingEffect();
     }
 
@@ -203,19 +203,20 @@ public class GameTile : MonoBehaviour
         StartCoroutine(WaitFor(.0f, callback));
     }
 
-    private IEnumerator Moving(Vector3 dest, bool withScaleEffect = false)
+    private IEnumerator Moving(Vector3 dest, float scaleTarget = 1)
     {
         Vector3 start = transform.position;
         Vector3 dir = (dest - transform.position).normalized;
+        Vector3 scaleOrigin = transform.Find("Tile Mesh").localScale;
         float totalDistance = Vector3.Distance(start, dest);
-        if (withScaleEffect) matchAnim.enabled = false;
+        if (scaleTarget != 1) matchAnim.enabled = false;
         while (true)
         {
             transform.position += moveSpeed * Time.deltaTime * dir;
-            if (withScaleEffect)
+            if (scaleTarget != 1)
             {
-                float scalar = Mathf.Lerp(1, 0, Vector3.Distance(transform.position, start) / totalDistance);
-                transform.localScale = Vector3.one * scalar;
+                float scalar = Mathf.Lerp(1, scaleTarget, Vector3.Distance(transform.position, start) / totalDistance);
+                transform.localScale = scaleOrigin * scalar;
             }
             if (Vector3.Dot(dest - transform.position, dir) < 0)
             {
