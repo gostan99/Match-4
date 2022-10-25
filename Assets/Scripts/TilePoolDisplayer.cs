@@ -9,6 +9,8 @@ using UnityEngine;
 public class TilePoolDisplayer : MonoBehaviour
 {
     [SerializeField] private Vector2 tileScale;
+    [SerializeField] private float firstTileScale = 1.3f;
+    [SerializeField] private float tileMoveSpeed = 0.3f;
 
     private List<GameTile> listTile = new();
     private GameGrid grid;
@@ -31,12 +33,15 @@ public class TilePoolDisplayer : MonoBehaviour
                 listTile.Remove(tile);
                 tile.DestroyTile();
             }
-            foreach (var t in listTile)
+
+            for (int i = 0; i < listTile.Count; i++)
             {
-                int index = listTile.IndexOf(t);
-                t.StartMoving(GetWorldPositionAtIndex(index));
+                GameTile t = listTile[i];
+                if (i != 0)
+                    t.StartMoving(GetWorldPositionAtIndex(i));
+                else
+                    t.StartMoving(GetWorldPositionAtIndex(i), firstTileScale);
             }
-            listTile[0].transform.Find("Tile Mesh").localScale = new(1.3f, 1.3f, 1.3f);
         }
         else if (grid.TileInfoIdPool.Count > listTile.Count)
         {
@@ -50,7 +55,6 @@ public class TilePoolDisplayer : MonoBehaviour
                 var tile = CreateTile(infoId, spawnPosition, i);
                 listTile.Add(tile);
             }
-            listTile[0].transform.Find("Tile Mesh").localScale = new(1.3f, 1.3f, 1.3f);
         }
     }
 
@@ -65,6 +69,7 @@ public class TilePoolDisplayer : MonoBehaviour
             var tile = CreateTile(infoId, spawnPosition, i);
             listTile.Add(tile);
         }
+        listTile[0].transform.Find("Tile Mesh").localScale = Vector3.one * firstTileScale;
     }
 
     private Vector3 GetWorldPositionAtIndex(int poolIndex)
@@ -90,6 +95,7 @@ public class TilePoolDisplayer : MonoBehaviour
         var tile = tileGObj.GetComponent<GameTile>();
         tile.Init(grid, poolIndex, infoId, playSpawnEffect);
         tile.isPoolDisplay = true;
+        tile.SetSpeed(tileMoveSpeed);
 
         if (!tile.abilities.CanExplodes)
             tileGObj.GetComponent<Animator>().enabled = false;

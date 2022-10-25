@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileScale: {x: 0.47, y: 0.47}
+  firstTileScale: 1.3
+  tileMoveSpeed: 7.05
 --- !u!1 &9076528976283016001
 GameObject:
   m_ObjectHideFlags: 0

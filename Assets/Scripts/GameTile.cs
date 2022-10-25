@@ -74,6 +74,11 @@ public class GameTile : MonoBehaviour
     {
     }
 
+    public void SetSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
+
     public void StartMoving(Vector2Int gridOffset)
     {
         State = TileState.Moving;
@@ -207,7 +212,7 @@ public class GameTile : MonoBehaviour
     {
         Vector3 start = transform.position;
         Vector3 dir = (dest - transform.position).normalized;
-        Vector3 scaleOrigin = transform.Find("Tile Mesh").localScale;
+        Vector3 scaleOrigin = tileMesh.transform.localScale;
         float totalDistance = Vector3.Distance(start, dest);
         if (scaleTarget != 1) matchAnim.enabled = false;
         while (true)
@@ -216,7 +221,7 @@ public class GameTile : MonoBehaviour
             if (scaleTarget != 1)
             {
                 float scalar = Mathf.Lerp(1, scaleTarget, Vector3.Distance(transform.position, start) / totalDistance);
-                transform.localScale = scaleOrigin * scalar;
+                tileMesh.transform.localScale = scaleOrigin * scalar;
             }
             if (Vector3.Dot(dest - transform.position, dir) < 0)
             {

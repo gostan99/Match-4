@@ -68046,7 +68046,7 @@ PrefabInstance:
     - target: {fileID: 6359228795147838655, guid: 86675985d5118ba4e93c6daeb9f13c39,
         type: 3}
       propertyPath: m_Name
-      value: TNT Mesh
+      value: Tile Mesh
       objectReference: {fileID: 0}
     - target: {fileID: 6359228795147838655, guid: 86675985d5118ba4e93c6daeb9f13c39,
         type: 3}
