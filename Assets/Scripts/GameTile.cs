@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class GameTile : MonoBehaviour
@@ -180,17 +179,19 @@ public class GameTile : MonoBehaviour
         while (scalar < 1)
         {
             scalar = timer / time;
-            transform.localScale = Vector3.one * scalar;
+            tileMesh.transform.localScale = Vector3.one * scalar;
             timer += Time.deltaTime;
             yield return null;
         }
-        transform.localScale = Vector3.one;
+        tileMesh.transform.localScale = Vector3.one;
 
         foreach (var f in fx)
         {
             f.SetActive(true);
         }
-        matchAnim.enabled = true;
+
+        if (!isPoolDisplay)
+            matchAnim.enabled = true;
     }
 
     private void PlayStartMovingEffect()

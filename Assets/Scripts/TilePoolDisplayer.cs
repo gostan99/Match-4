@@ -52,7 +52,7 @@ public class TilePoolDisplayer : MonoBehaviour
                 int infoId = list[i];
                 spawnPosition = GetWorldPositionAtIndex(i);
 
-                var tile = CreateTile(infoId, spawnPosition, i);
+                var tile = CreateTile(infoId, spawnPosition, i, true);
                 listTile.Add(tile);
             }
         }
