@@ -4,8 +4,8 @@ public class Level0Manger : LevelManager
 {
     [SerializeField] private GameObject gridPrefab;
 
-    private GameMode gameMode;
-    private GameGrid grid;
+    public GameMode gameMode;
+    public GameGrid grid;
 
     private void Start()
     {

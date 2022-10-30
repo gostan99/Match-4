@@ -42,6 +42,7 @@ public class GameGrid : MonoBehaviour
     private int moveSuccessCount = 0;
     private WaitForSeconds executeMatchDelay;
     private bool isExecuteMatchDelay = false;
+    private int lastMatchedTilesCount = 0;
 
     // Tiles that are currently reacting to being matches.
     private List<GameTile> tilesBeingDestroyed;
@@ -174,11 +175,7 @@ public class GameGrid : MonoBehaviour
             tileInfoArr[1].probability = stored;
         }
 
-        // Add score based on tile count.
-        {
-            int scoreMult = GetScoreMultiplierForMove(lastMoveType);
-            gameMode.AddScore(matchedAddresses.Count * scoreMult);
-        }
+        lastMatchedTilesCount = matchedAddresses.Count;
 
         onExecuteMatch?.Invoke(matchedAddresses);
 
@@ -201,6 +198,12 @@ public class GameGrid : MonoBehaviour
 
         if (tilesBeingDestroyed.Count == 0)
         {
+            // Add score based on tile count.
+            {
+                int scoreMult = GetScoreMultiplierForMove(lastMoveType);
+                gameMode.AddScore(lastMatchedTilesCount * scoreMult);
+            }
+
             if (lastMoveType == TileMoveType.Bomb)
             {
                 lastMoveType = TileMoveType.Combo;

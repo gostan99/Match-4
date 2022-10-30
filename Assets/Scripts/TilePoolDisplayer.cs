@@ -65,11 +65,15 @@ public class TilePoolDisplayer : MonoBehaviour
         {
             int infoId = grid.TileInfoIdPool[i];
             spawnPosition = GetWorldPositionAtIndex(i);
-
-            var tile = CreateTile(infoId, spawnPosition, i);
+            GameTile tile;
+            if (i == 0)
+                tile = CreateTile(infoId, spawnPosition, i, true, firstTileScale);
+            else
+                tile = CreateTile(infoId, spawnPosition, i, true);
             listTile.Add(tile);
         }
-        listTile[0].transform.Find("Tile Mesh").localScale = Vector3.one * firstTileScale;
+        //listTile[0].StartMoving(listTile[0].transform.position, firstTileScale);
+        //listTile[0].transform.Find("Tile Mesh").localScale = Vector3.one * firstTileScale;
     }
 
     private Vector3 GetWorldPositionAtIndex(int poolIndex)
@@ -84,7 +88,7 @@ public class TilePoolDisplayer : MonoBehaviour
         return outLocation;
     }
 
-    private GameTile CreateTile(int infoId, Vector3 worldPos, int poolIndex, bool playSpawnEffect = false)
+    private GameTile CreateTile(int infoId, Vector3 worldPos, int poolIndex, bool playSpawnEffect = false, float tileMeshScale = 1)
     {
         GameObject prefab = grid.TileInfoArr[infoId].tilePrefab;
         var tileGObj = Instantiate(prefab);
@@ -93,7 +97,7 @@ public class TilePoolDisplayer : MonoBehaviour
         tileGObj.GetComponent<BoxCollider>().enabled = false;
 
         var tile = tileGObj.GetComponent<GameTile>();
-        tile.Init(grid, poolIndex, infoId, playSpawnEffect);
+        tile.Init(grid, poolIndex, infoId, playSpawnEffect, tileMeshScale);
         tile.isPoolDisplay = true;
         tile.SetSpeed(tileMoveSpeed);
 

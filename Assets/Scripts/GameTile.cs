@@ -26,12 +26,14 @@ public class GameTile : MonoBehaviour
     private Transform wickSparcles;
     private float matchAnimLength;
     private Material tileMeshCloneMaterial;
+    private float meshScale = 1;
 
-    public void Init(GameGrid grid, int address, int infoId, bool playSpawnEffect = true)
+    public void Init(GameGrid grid, int address, int infoId, bool playSpawnEffect = true, float meshScale = 1)
     {
         this.grid = grid;
         this.address = address;
         this.infoId = infoId;
+        this.meshScale = meshScale;
         boxCollider = GetComponent<BoxCollider>();
         matchAnim = GetComponent<Animator>();
         tileMeshCloneMaterial = tileMeshClone.GetComponent<Renderer>().material;
@@ -176,14 +178,15 @@ public class GameTile : MonoBehaviour
     {
         float timer = 0;
         float scalar = 0;
+        Vector3 scale = Vector3.one * meshScale;
         while (scalar < 1)
         {
             scalar = timer / time;
-            tileMesh.transform.localScale = Vector3.one * scalar;
+            tileMesh.transform.localScale = scale * scalar;
             timer += Time.deltaTime;
             yield return null;
         }
-        tileMesh.transform.localScale = Vector3.one;
+        tileMesh.transform.localScale = scale;
 
         foreach (var f in fx)
         {

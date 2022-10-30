@@ -11,6 +11,9 @@ public class GameMode : MonoBehaviour
         score += val;
     }
 
+    public float GetScore()
+    { return score; }
+
     public void GameOver()
     {
         isGameOver = true;

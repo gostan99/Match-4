@@ -375,7 +375,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7877760189854261190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 25.5, z: 0}
+  m_LocalPosition: {x: 0.5, y: 23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -473,7 +473,7 @@ MonoBehaviour:
   tileSize: {x: 8, y: 8}
   gridSize: {x: 4, y: 4}
   minimumMatchedCount: 4
-  imovablePoint: 4
+  imovablePoint: 5
   confirmSwipeDirLength: 100
   confirmMoveTileLength: 130
   matchingDelayTime: 0
