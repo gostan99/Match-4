@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -30,6 +31,7 @@ public class GameGrid : MonoBehaviour
     [SerializeField] private float confirmSwipeDirLength = 0.4f; // độ dài nhỏ nhất để xác nhận chiều mà người dùng kéo tile
     [SerializeField] private float confirmMoveTileLength = 1f;   // độ dài nhỏ nhất để xác nhận bắt đầu di chuyển tile
     [SerializeField] private float matchingDelayTime = 0.5f;
+    [SerializeField] private GameObject textPopup;
 
     private GameTile[] tiles;
     private List<GameTile> movingTiles;
@@ -43,6 +45,7 @@ public class GameGrid : MonoBehaviour
     private WaitForSeconds executeMatchDelay;
     private bool isExecuteMatchDelay = false;
     private int lastMatchedTilesCount = 0;
+    private Vector3 textPopupPos;
 
     // Tiles that are currently reacting to being matches.
     private List<GameTile> tilesBeingDestroyed;
@@ -177,6 +180,15 @@ public class GameGrid : MonoBehaviour
 
         lastMatchedTilesCount = matchedAddresses.Count;
 
+        Vector3 avarage = Vector3.zero;
+        foreach (var addr in matchedAddresses)
+        {
+            avarage += tiles[addr].transform.position;
+        }
+        avarage /= matchedAddresses.Count;
+        textPopupPos = avarage;
+        textPopupPos.z = Camera.main.transform.position.z + 1;
+
         onExecuteMatch?.Invoke(matchedAddresses);
 
         foreach (var address in matchedAddresses)
@@ -202,6 +214,14 @@ public class GameGrid : MonoBehaviour
             {
                 int scoreMult = GetScoreMultiplierForMove(lastMoveType);
                 gameMode.AddScore(lastMatchedTilesCount * scoreMult);
+
+                //Popup Score
+                var pop = Instantiate(textPopup);
+                pop.transform.SetParent(transform);
+                pop.transform.position = textPopupPos;
+                pop.GetComponentInChildren<TextMeshProUGUI>().text = scoreMult.ToString();
+                var animator = pop.GetComponent<Animator>();
+                Destroy(pop.gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
             }
 
             if (lastMoveType == TileMoveType.Bomb)
@@ -417,6 +437,7 @@ public class GameGrid : MonoBehaviour
     {
         GameObject prefab = tileInfoArr[infoId].tilePrefab;
         var tileGObj = Instantiate(prefab);
+        tileGObj.transform.parent = transform;
         tileGObj.transform.position = worldPos;
         //tileGObj.transform.localScale = new(tileSize.x / 0.32f, tileSize.y / 0.32f, 0);
         var tile = tileGObj.GetComponent<GameTile>();
@@ -518,23 +539,23 @@ public class GameGrid : MonoBehaviour
 
     private void MakeRandomTileBecomesImovable()
     {
-        int address = UnityEngine.Random.Range(0, tiles.Length);
-        var tile = tiles[address];
-        while (!tile.abilities.CanMove)
-        {
-            address = UnityEngine.Random.Range(0, tiles.Length);
-            tile = tiles[address];
-        }
-        var address2D = Convert1DTo2DGridAddress(address);
-        rowNotContainImovableTile.Remove(address2D.y);
-        columnNotContainImovableTile.Remove(address2D.x);
-        //Array.Clear(tiles, address, 1);
-        //tiles[address] = CreateTile(0, tile.transform.position, tile.GetAddress());
-        //tile.DestroyTile();
-        tile.BecomesImovable();
+        //int address = UnityEngine.Random.Range(0, tiles.Length);
+        //var tile = tiles[address];
+        //while (!tile.abilities.CanMove)
+        //{
+        //    address = UnityEngine.Random.Range(0, tiles.Length);
+        //    tile = tiles[address];
+        //}
+        //var address2D = Convert1DTo2DGridAddress(address);
+        //rowNotContainImovableTile.Remove(address2D.y);
+        //columnNotContainImovableTile.Remove(address2D.x);
+        ////Array.Clear(tiles, address, 1);
+        ////tiles[address] = CreateTile(0, tile.transform.position, tile.GetAddress());
+        ////tile.DestroyTile();
+        //tile.BecomesImovable();
 
-        if (rowNotContainImovableTile.Count == 0 && columnNotContainImovableTile.Count == 0)
-            gameMode.GameOver();
+        //if (rowNotContainImovableTile.Count == 0 && columnNotContainImovableTile.Count == 0)
+        //    gameMode.GameOver();
     }
 
     //private void Update()
@@ -708,12 +729,12 @@ public class GameGrid : MonoBehaviour
     {
         return moveType switch
         {
-            TileMoveType.None => 100,// Default value of 100 points per action.
-            TileMoveType.MoveFailure => 100,// Default value of 100 points per action.
-            TileMoveType.Point => 100,// Default value of 100 points per action.
-            TileMoveType.Combo => 100,// Default value of 100 points per action.
-            TileMoveType.Bomb => 100,// Default value of 100 points per action.
-            _ => 100,
+            TileMoveType.None => 10,// Default value of 100 points per action.
+            TileMoveType.MoveFailure => 10,// Default value of 100 points per action.
+            TileMoveType.Point => 10,// Default value of 100 points per action.
+            TileMoveType.Combo => 10 * combos,// Default value of 100 points per action.
+            TileMoveType.Bomb => 10,// Default value of 100 points per action.
+            _ => 10,
         };
     }
 

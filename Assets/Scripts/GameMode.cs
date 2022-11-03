@@ -1,8 +1,13 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 public class GameMode : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI highScoreDisplay;
+    [SerializeField] private TextMeshProUGUI scoreDisplay;
+    [SerializeField] private GameObject gameOverScreen;
+
     private bool isGameOver = false;
     private float score;
 
@@ -17,7 +22,12 @@ public class GameMode : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
-        Debug.Log("Game Over!");
+        if (score > PlayerPrefs.GetInt("High Score"))
+            PlayerPrefs.SetInt("High Score", (int)score);
+        PlayerPrefs.Save();
+        var screen = Instantiate(gameOverScreen);
+        screen.transform.SetParent(highScoreDisplay.transform.parent.parent);
+        screen.transform.localPosition = Vector3.zero;
     }
 
     public bool IsGameOver()
@@ -25,8 +35,8 @@ public class GameMode : MonoBehaviour
         return isGameOver;
     }
 
-    private void Update()
+    private void Start()
     {
-        Debug.Log(score);
+        highScoreDisplay.text = PlayerPrefs.GetInt("High Score").ToString();
     }
 }

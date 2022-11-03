@@ -804,6 +804,8 @@ MonoBehaviour:
   confirmSwipeDirLength: 100
   confirmMoveTileLength: 130
   matchingDelayTime: 0
+  textPopup: {fileID: 4285857667612522737, guid: f3aed513f9d62134898ca5a05c67e88a,
+    type: 3}
 --- !u!1 &9077261011621187415
 GameObject:
   m_ObjectHideFlags: 0

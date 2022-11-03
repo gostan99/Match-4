@@ -92,6 +92,7 @@ public class TilePoolDisplayer : MonoBehaviour
     {
         GameObject prefab = grid.TileInfoArr[infoId].tilePrefab;
         var tileGObj = Instantiate(prefab);
+        tileGObj.transform.parent = transform;
         tileGObj.transform.position = worldPos;
         tileGObj.transform.localScale = new(tileScale.x, tileScale.y, 0);
         tileGObj.GetComponent<BoxCollider>().enabled = false;
