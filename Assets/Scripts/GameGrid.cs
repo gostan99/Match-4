@@ -226,10 +226,6 @@ public class GameGrid : MonoBehaviour
 
             if (lastMoveType == TileMoveType.Bomb)
             {
-                lastMoveType = TileMoveType.Combo;
-                ++combos;
-                OnMoveMade(lastMoveType);
-
                 HashSet<int> explodedTileAddress = new();
                 foreach (var bombTile in bombsBeingExplode)
                 {
