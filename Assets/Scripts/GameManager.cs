@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour
     public void StartLevel(int id)
     {
         if (currentLevel != null)
-            Destroy(currentLevel);
+            DestroyImmediate(currentLevel);       // This work like a charm
+                                                  //Destroy(currentLevel);        // This doesn't work
+                                                  //Destroy(currentLevel, 0);     // Does not work also
         currentLevelId = id;
         currentLevel = Instantiate(levelPrefabs[currentLevelId]);
         levelMgr = currentLevel.GetComponent<Level0Manger>();

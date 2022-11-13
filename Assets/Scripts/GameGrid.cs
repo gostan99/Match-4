@@ -212,8 +212,8 @@ public class GameGrid : MonoBehaviour
         {
             // Add score based on tile count.
             {
-                int scoreMult = GetScoreMultiplierForMove(lastMoveType);
-                gameMode.AddScore(lastMatchedTilesCount * scoreMult);
+                int scoreMult = GetScoreMultiplierForMove(lastMoveType) * lastMatchedTilesCount;
+                gameMode.AddScore(scoreMult);
 
                 //Popup Score
                 var pop = Instantiate(textPopup);
@@ -410,6 +410,11 @@ public class GameGrid : MonoBehaviour
     public void SetGameMode(in GameMode gameMode)
     {
         this.gameMode = gameMode;
+    }
+
+    public GameMode GetGameMode()
+    {
+        return gameMode;
     }
 
     public int GetRandomTileInfoId()

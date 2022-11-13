@@ -20,6 +20,22 @@ public class TilePoolDisplayer : MonoBehaviour
     {
         grid = transform.parent.GetComponent<GameGrid>();
         InitPool();
+        grid.GetGameMode().OnScoreChange.AddListener(OnScoreChange);
+    }
+
+    private void OnScoreChange()
+    {
+        int diff = Mathf.Abs(grid.TileInfoIdPool.Count - listTile.Count);
+        Vector3 spawnPosition;
+        var list = grid.TileInfoIdPool;
+        for (int i = list.Count - diff; i < list.Count; i++)
+        {
+            int infoId = list[i];
+            spawnPosition = GetWorldPositionAtIndex(i);
+
+            var tile = CreateTile(infoId, spawnPosition, i, true);
+            listTile.Add(tile);
+        }
     }
 
     private void Update()
@@ -41,19 +57,6 @@ public class TilePoolDisplayer : MonoBehaviour
                     t.StartMoving(GetWorldPositionAtIndex(i));
                 else
                     t.StartMoving(GetWorldPositionAtIndex(i), firstTileScale);
-            }
-        }
-        else if (grid.TileInfoIdPool.Count > listTile.Count)
-        {
-            Vector3 spawnPosition;
-            var list = grid.TileInfoIdPool;
-            for (int i = list.Count - diff; i < list.Count; i++)
-            {
-                int infoId = list[i];
-                spawnPosition = GetWorldPositionAtIndex(i);
-
-                var tile = CreateTile(infoId, spawnPosition, i, true);
-                listTile.Add(tile);
             }
         }
     }

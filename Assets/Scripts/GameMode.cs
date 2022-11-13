@@ -1,9 +1,12 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameMode : MonoBehaviour
 {
+    public UnityEvent OnScoreChange = new UnityEvent();
+
     [SerializeField] private TextMeshProUGUI highScoreDisplay;
     [SerializeField] private TextMeshProUGUI scoreDisplay;
     [SerializeField] private GameObject gameOverScreen;
@@ -14,6 +17,7 @@ public class GameMode : MonoBehaviour
     public void AddScore(float val)
     {
         score += val;
+        OnScoreChange?.Invoke();
     }
 
     public float GetScore()
