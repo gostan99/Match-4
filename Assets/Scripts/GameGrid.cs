@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,31 +72,80 @@ public class GameGrid : MonoBehaviour
         executeMatchDelay = new WaitForSeconds(matchingDelayTime);
     }
 
+    public void SaveGridState()
+    {
+        CellState[] tileStates = new CellState[tiles.Length];
+        for (int i = 0; i < tileStates.Length; i++)
+        {
+            tileStates[i].gridAddress = i;
+            tileStates[i].infoId = tiles[i].InfoId;
+        }
+
+        string tileStatesJson = JsonConvert.SerializeObject(tileStates);
+        PlayerPrefs.SetString("CellStates", tileStatesJson);
+        string poolInfoJson = JsonConvert.SerializeObject(tileInfoIdPool);
+        PlayerPrefs.SetString("PoolState", poolInfoJson);
+    }
+
     public void MakeGrid()
     {
         //Array.Clear(tiles, 0, tiles.Length);
-        Vector3 spawnPosition;
-        for (int column = 0; column < gridSize.x; ++column)
+        CellState[] cellStates = JsonConvert.DeserializeObject<CellState[]>(PlayerPrefs.GetString("CellStates"));
+        if (cellStates != null)
         {
-            for (int row = 0; row < gridSize.y; ++row)
+            Vector3 spawnPosition;
+            //for (int column = 0; column < gridSize.x; ++column)
+            //{
+            //    for (int row = 0; row < gridSize.y; ++row)
+            //    {
+            //        int gridAddress = new();
+            //        GetGridAddressWithOffset(0, new(row, column), ref gridAddress);
+            //        int infoId = cellStates[gridAddress].infoId;
+            //        spawnPosition = GetWorldPosFromGridAddress(gridAddress);
+
+            //        tiles[gridAddress] = CreateTile(infoId, spawnPosition, gridAddress);
+            //    }
+            //}
+            for (int gridAddress = 0; gridAddress < cellStates.Length; gridAddress++)
             {
-                int infoId = GetRandomTileInfoId();
-                int gridAddress = new();
-                GetGridAddressWithOffset(0, new(row, column), ref gridAddress);
+                int infoId = cellStates[gridAddress].infoId;
                 spawnPosition = GetWorldPosFromGridAddress(gridAddress);
 
                 tiles[gridAddress] = CreateTile(infoId, spawnPosition, gridAddress);
             }
         }
-
-        for (int i = 0; i < initialPoolElementNum; i++)
+        else
         {
-            float stored = tileInfoArr[1].probability;
-            tileInfoArr[1].probability = 0;
-            tileInfoIdPool.Add(GetRandomTileInfoId());
-            tileInfoArr[1].probability = stored;
+            Vector3 spawnPosition;
+            for (int column = 0; column < gridSize.x; ++column)
+            {
+                for (int row = 0; row < gridSize.y; ++row)
+                {
+                    int infoId = GetRandomTileInfoId();
+                    int gridAddress = new();
+                    GetGridAddressWithOffset(0, new(row, column), ref gridAddress);
+                    spawnPosition = GetWorldPosFromGridAddress(gridAddress);
+
+                    tiles[gridAddress] = CreateTile(infoId, spawnPosition, gridAddress);
+                }
+            }
         }
 
+        List<int> poolState = JsonConvert.DeserializeObject<List<int>>(PlayerPrefs.GetString("PoolState"));
+        if (poolState != null)
+        {
+            tileInfoIdPool = poolState;
+        }
+        else
+        {
+            for (int i = 0; i < initialPoolElementNum; i++)
+            {
+                float stored = tileInfoArr[1].probability;
+                tileInfoArr[1].probability = 0;
+                tileInfoIdPool.Add(GetRandomTileInfoId());
+                tileInfoArr[1].probability = stored;
+            }
+        }
         StartCoroutine(DelayExecuteMatch());
     }
 
@@ -168,7 +218,7 @@ public class GameGrid : MonoBehaviour
         }
 
         // Add to pool
-        int gain = matchedAddresses.Count / 2;
+        int gain = matchedAddresses.Count / minimumMatchedCount;
         if (tileInfoIdPool.Count + gain > poolSize) gain = poolSize - tileInfoIdPool.Count;
         for (int i = 0; i < gain; i++)
         {
@@ -772,6 +822,13 @@ public class GameGrid : MonoBehaviour
             Instance = this;
         }
     }
+}
+
+[System.Serializable]
+public struct CellState
+{
+    public int gridAddress;
+    public int infoId;
 }
 
 [Serializable]

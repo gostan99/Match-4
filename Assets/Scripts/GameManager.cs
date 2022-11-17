@@ -31,12 +31,17 @@ public class GameManager : MonoBehaviour
     public void StartLevel(int id)
     {
         if (currentLevel != null)
-            DestroyImmediate(currentLevel);       // This work like a charm
-                                                  //Destroy(currentLevel);        // This doesn't work
-                                                  //Destroy(currentLevel, 0);     // Does not work also
+        {
+            PlayerPrefs.SetString("CellStates", "");
+            PlayerPrefs.SetString("PoolState", "");
+            DestroyImmediate(currentLevel); // This work like a charm
+            //Destroy(currentLevel);        // This doesn't work
+            //Destroy(currentLevel, 0);     // Does not work also
+        }
         currentLevelId = id;
         currentLevel = Instantiate(levelPrefabs[currentLevelId]);
         levelMgr = currentLevel.GetComponent<Level0Manger>();
+        currentLevel.transform.SetParent(transform);
     }
 
     public bool IsGameActive()
@@ -49,5 +54,11 @@ public class GameManager : MonoBehaviour
         playerController = Instantiate(playerControllerPrefab).GetComponent<PlayerController>();
         StartLevel(0);
         isGameActive = true;
+    }
+
+    private void OnDestroy()
+    {
+        if (currentLevel != null)
+            currentLevel.SaveState();
     }
 }
