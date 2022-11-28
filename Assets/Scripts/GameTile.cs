@@ -16,9 +16,9 @@ public class GameTile : MonoBehaviour
     [SerializeField] private GameObject[] fx;
     [SerializeField] private GameObject tileMesh;
     [SerializeField] private GameObject tileMeshClone;
+    [SerializeField] private int address;
 
     private GameGrid grid;
-    private int address;
     private int landingAddress;
     private Coroutine movingCoroutine;
     private BoxCollider boxCollider;
