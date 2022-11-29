@@ -121,7 +121,16 @@ public class GameGrid : MonoBehaviour
             {
                 for (int row = 0; row < gridSize.y; ++row)
                 {
-                    int infoId = GetRandomTileInfoId();
+                    int infoId;
+                    if ((row == 0 && column == 0) || (row == 1 && column == 0) || (row == 0 && column == 1))
+                    {
+                        infoId = tileInfoArr.Length - 1;
+                    }
+                    else
+                    {
+                        infoId = infoId = Mathf.Clamp(row + column % 3, 2, tileInfoArr.Length - 2);
+                    }
+
                     int gridAddress = new();
                     GetGridAddressWithOffset(0, new(row, column), ref gridAddress);
                     spawnPosition = GetWorldPosFromGridAddress(gridAddress);
@@ -138,12 +147,13 @@ public class GameGrid : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < initialPoolElementNum; i++)
+            tileInfoIdPool.Add(tileInfoArr.Length - 2);
+            tileInfoIdPool.Add(tileInfoArr.Length - 1);
+
+            for (int i = 2; i < initialPoolElementNum; i++)
             {
-                float stored = tileInfoArr[1].probability;
-                tileInfoArr[1].probability = 0;
-                tileInfoIdPool.Add(GetRandomTileInfoId());
-                tileInfoArr[1].probability = stored;
+                int infoId = Mathf.Clamp(GetRandomTileInfoId(), 2, tileInfoArr.Length - 1);
+                tileInfoIdPool.Add(infoId);
             }
         }
         StartCoroutine(DelayExecuteMatch());
