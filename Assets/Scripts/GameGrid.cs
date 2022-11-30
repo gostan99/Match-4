@@ -122,7 +122,7 @@ public class GameGrid : MonoBehaviour
                 for (int row = 0; row < gridSize.y; ++row)
                 {
                     int infoId;
-                    if ((row == 0 && column == 0) || (row == 1 && column == 0) || (row == 0 && column == 1))
+                    if ((row == 0 && column == 0) || (row == 0 && column == 1) || (row == 1 && column == 1))
                     {
                         infoId = tileInfoArr.Length - 1;
                     }
